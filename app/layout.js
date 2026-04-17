@@ -9,6 +9,9 @@ export const metadata = {
   },
   description:
     'Your trusted guide to composting and vermicomposting. Honest reviews, in-depth guides, and practical tips to turn kitchen scraps into black gold.',
+  verification: {
+    google: 'QZwzSBlmovigJpfxNfCzeVu2o-JLOkUirkK5S3C8PNI',
+  },
   openGraph: {
     type: 'website',
     locale: 'en_US',
