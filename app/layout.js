@@ -30,20 +30,17 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <head>
-        {/* Google Analytics - replace GA_MEASUREMENT_ID with your actual ID */}
-        {/*
-        <script async src="https://www.googletagmanager.com/gtag/js?id=GA_MEASUREMENT_ID"></script>
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-SX0T93Q80M"></script>
         <script
           dangerouslySetInnerHTML={{
             __html: `
               window.dataLayer = window.dataLayer || [];
               function gtag(){dataLayer.push(arguments);}
               gtag('js', new Date());
-              gtag('config', 'GA_MEASUREMENT_ID');
+              gtag('config', 'G-SX0T93Q80M');
             `,
           }}
         />
-        */}
       </head>
       <body className="flex flex-col min-h-screen">
         <Header />
