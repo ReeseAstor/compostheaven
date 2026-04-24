@@ -5,6 +5,9 @@ export const metadata = {
   title: 'Blog',
   description:
     'Browse all composting articles, guides, and product reviews from CompostHeaven. Everything you need to master composting at home.',
+  alternates: {
+    canonical: '/blog',
+  },
 };
 
 export default function BlogPage() {

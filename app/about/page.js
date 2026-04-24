@@ -4,6 +4,9 @@ export const metadata = {
   title: 'About CompostHeaven',
   description:
     'Learn about CompostHeaven, our mission to make composting accessible to everyone, and the team behind your trusted composting resource.',
+  alternates: {
+    canonical: '/about',
+  },
 };
 
 export default function AboutPage() {

@@ -20,6 +20,9 @@ export async function generateMetadata({ params }) {
   return {
     title: article.metaTitle,
     description: article.metaDescription,
+    alternates: {
+      canonical: `/${slug}`,
+    },
     openGraph: {
       title: article.metaTitle,
       description: article.metaDescription,
@@ -66,16 +69,16 @@ export default async function ArticlePage({ params }) {
     author: {
       '@type': 'Organization',
       name: 'The CompostHeaven Team',
-      url: 'https://compostheaven.com',
+      url: 'https://www.compostheaven.com',
     },
     publisher: {
       '@type': 'Organization',
       name: 'CompostHeaven',
-      url: 'https://compostheaven.com',
+      url: 'https://www.compostheaven.com',
     },
     mainEntityOfPage: {
       '@type': 'WebPage',
-      '@id': `https://compostheaven.com/${article.slug}`,
+      '@id': `https://www.compostheaven.com/${article.slug}`,
     },
   };
 

@@ -7,6 +7,9 @@ export const metadata = {
   title: 'CompostHeaven - Your Complete Guide to Composting',
   description:
     'Learn everything about composting with our in-depth guides, honest product reviews, and practical tips. Turn your kitchen scraps into nutrient-rich garden gold.',
+  alternates: {
+    canonical: '/',
+  },
 };
 
 export default function HomePage() {

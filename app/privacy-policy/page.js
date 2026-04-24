@@ -4,6 +4,9 @@ export const metadata = {
   title: 'Privacy Policy',
   description:
     'CompostHeaven privacy policy. Learn how we collect, use, and protect your personal information.',
+  alternates: {
+    canonical: '/privacy-policy',
+  },
 };
 
 export default function PrivacyPolicyPage() {

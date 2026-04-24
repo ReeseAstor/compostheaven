@@ -3,6 +3,10 @@ import Header from '../components/Header';
 import Footer from '../components/Footer';
 
 export const metadata = {
+  metadataBase: new URL('https://www.compostheaven.com'),
+  alternates: {
+    canonical: '/',
+  },
   title: {
     template: '%s | CompostHeaven',
     default: 'CompostHeaven - Composting Guides & Reviews',
@@ -21,7 +25,6 @@ export const metadata = {
       'Your trusted guide to composting and vermicomposting. Honest reviews, in-depth guides, and practical tips.',
   },
   other: {
-    // Pinterest domain verification - replace with your actual code
     'p:domain_verify': 'PINTEREST_VERIFICATION_CODE',
   },
 };

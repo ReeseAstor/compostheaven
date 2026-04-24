@@ -4,6 +4,9 @@ export const metadata = {
   title: 'Disclaimer',
   description:
     'CompostHeaven disclaimer, affiliate disclosure, and FTC compliance information.',
+  alternates: {
+    canonical: '/disclaimer',
+  },
 };
 
 export default function DisclaimerPage() {
