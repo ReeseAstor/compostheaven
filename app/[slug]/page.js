@@ -27,7 +27,23 @@ export async function generateMetadata({ params }) {
       title: article.metaTitle,
       description: article.metaDescription,
       type: 'article',
-      publishedTime: article.date,
+      url: `https://www.compostheaven.com/${slug}`,
+      publishedTime: new Date(article.date).toISOString(),
+      authors: ['The CompostHeaven Team'],
+      images: [
+        {
+          url: '/og-image.png',
+          width: 1200,
+          height: 630,
+          alt: article.title,
+        },
+      ],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: article.metaTitle,
+      description: article.metaDescription,
+      images: ['/og-image.png'],
     },
   };
 }
@@ -59,13 +75,15 @@ export default async function ArticlePage({ params }) {
     .slice(0, 3);
 
   // JSON-LD structured data
+  const isoDate = new Date(article.date).toISOString();
   const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'Article',
     headline: article.title,
     description: article.metaDescription,
-    datePublished: article.date,
-    dateModified: article.date,
+    image: 'https://www.compostheaven.com/og-image.png',
+    datePublished: isoDate,
+    dateModified: isoDate,
     author: {
       '@type': 'Organization',
       name: 'The CompostHeaven Team',
@@ -75,11 +93,41 @@ export default async function ArticlePage({ params }) {
       '@type': 'Organization',
       name: 'CompostHeaven',
       url: 'https://www.compostheaven.com',
+      logo: {
+        '@type': 'ImageObject',
+        url: 'https://www.compostheaven.com/icon-512.png',
+      },
     },
     mainEntityOfPage: {
       '@type': 'WebPage',
       '@id': `https://www.compostheaven.com/${article.slug}`,
     },
+  };
+
+  // Breadcrumb structured data
+  const breadcrumbJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      {
+        '@type': 'ListItem',
+        position: 1,
+        name: 'Home',
+        item: 'https://www.compostheaven.com',
+      },
+      {
+        '@type': 'ListItem',
+        position: 2,
+        name: 'Blog',
+        item: 'https://www.compostheaven.com/blog',
+      },
+      {
+        '@type': 'ListItem',
+        position: 3,
+        name: article.title,
+        item: `https://www.compostheaven.com/${article.slug}`,
+      },
+    ],
   };
 
   return (
@@ -88,6 +136,10 @@ export default async function ArticlePage({ params }) {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
       />
 
       <article className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">

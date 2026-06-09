@@ -1,5 +1,5 @@
 export default function sitemap() {
-  const baseUrl = 'https://compostheaven.com';
+  const baseUrl = 'https://www.compostheaven.com';
 
   return [
     {

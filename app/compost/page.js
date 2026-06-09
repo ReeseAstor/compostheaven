@@ -5,6 +5,33 @@ export const metadata = {
   title: 'Beneficial Microbes in Compost: Complete Guide',
   description:
     'Discover the beneficial microbes that make compost a powerhouse fertilizer. Learn how bacteria, fungi, actinomycetes, and worm castings create nutrient-rich soil for your garden.',
+  alternates: {
+    canonical: '/compost',
+  },
+  openGraph: {
+    title: 'Beneficial Microbes in Compost: Complete Guide',
+    description:
+      'Discover the beneficial microbes that make compost a powerhouse fertilizer. Learn how bacteria, fungi, actinomycetes, and worm castings create nutrient-rich soil for your garden.',
+    type: 'article',
+    url: 'https://www.compostheaven.com/compost',
+    publishedTime: '2026-04-17T00:00:00.000Z',
+    authors: ['The CompostHeaven Team'],
+    images: [
+      {
+        url: '/og-image.png',
+        width: 1200,
+        height: 630,
+        alt: 'Beneficial Microbes in Compost',
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Beneficial Microbes in Compost: Complete Guide',
+    description:
+      'Discover the beneficial microbes that make compost a powerhouse fertilizer.',
+    images: ['/og-image.png'],
+  },
 };
 
 export default function CompostPage() {
@@ -15,21 +42,26 @@ export default function CompostPage() {
     headline: 'Beneficial Microbes in Compost: The Hidden Heroes of Your Garden',
     description:
       'Discover the beneficial microbes that make compost a powerhouse fertilizer. Learn how bacteria, fungi, actinomycetes, and worm castings create nutrient-rich soil for your garden.',
-    datePublished: '2026-04-17',
-    dateModified: '2026-04-17',
+    image: 'https://www.compostheaven.com/og-image.png',
+    datePublished: '2026-04-17T00:00:00.000Z',
+    dateModified: '2026-04-17T00:00:00.000Z',
     author: {
       '@type': 'Organization',
       name: 'The CompostHeaven Team',
-      url: 'https://compostheaven.com',
+      url: 'https://www.compostheaven.com',
     },
     publisher: {
       '@type': 'Organization',
       name: 'CompostHeaven',
-      url: 'https://compostheaven.com',
+      url: 'https://www.compostheaven.com',
+      logo: {
+        '@type': 'ImageObject',
+        url: 'https://www.compostheaven.com/icon-512.png',
+      },
     },
     mainEntityOfPage: {
       '@type': 'WebPage',
-      '@id': 'https://compostheaven.com/compost',
+      '@id': 'https://www.compostheaven.com/compost',
     },
   };
 
