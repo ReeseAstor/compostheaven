@@ -13,8 +13,35 @@ export const metadata = {
 export default function BlogPage() {
   const articles = getArticles();
 
+  const collectionJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'CollectionPage',
+    name: 'CompostHeaven Blog',
+    description:
+      'Browse all composting articles, guides, and product reviews from CompostHeaven.',
+    url: 'https://www.compostheaven.com/blog',
+    isPartOf: {
+      '@type': 'WebSite',
+      name: 'CompostHeaven',
+      url: 'https://www.compostheaven.com',
+    },
+    mainEntity: {
+      '@type': 'ItemList',
+      itemListElement: articles.map((article, index) => ({
+        '@type': 'ListItem',
+        position: index + 1,
+        url: `https://www.compostheaven.com/${article.slug}`,
+        name: article.title,
+      })),
+    },
+  };
+
   return (
     <section className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(collectionJsonLd) }}
+      />
       <h1 className="text-3xl sm:text-4xl font-bold text-earth-dark mb-4">
         All Articles
       </h1>
