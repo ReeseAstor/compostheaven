@@ -1,4 +1,9 @@
-import { getArticles, getArticleBySlug, getArticleSlugs } from '@/lib/articles';
+import {
+  getArticles,
+  getArticleBySlug,
+  getArticleSlugs,
+  getArticleFaqs,
+} from '@/lib/articles';
 import { markdownToHtml } from '@/lib/markdown';
 import EmailSignup from '@/components/EmailSignup';
 import ArticleCard from '@/components/ArticleCard';
@@ -76,6 +81,9 @@ export default async function ArticlePage({ params }) {
 
   // JSON-LD structured data
   const isoDate = new Date(article.date).toISOString();
+  const wordCount = article.content
+    ? article.content.trim().split(/\s+/).length
+    : undefined;
   const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'Article',
@@ -84,6 +92,9 @@ export default async function ArticlePage({ params }) {
     image: 'https://www.compostheaven.com/og-image.png',
     datePublished: isoDate,
     dateModified: isoDate,
+    articleSection: article.category,
+    wordCount,
+    inLanguage: 'en-US',
     author: {
       '@type': 'Organization',
       name: 'The CompostHeaven Team',
@@ -103,6 +114,24 @@ export default async function ArticlePage({ params }) {
       '@id': `https://www.compostheaven.com/${article.slug}`,
     },
   };
+
+  // FAQ structured data (only when the article contains an FAQ section)
+  const faqs = getArticleFaqs(article.content);
+  const faqJsonLd =
+    faqs.length > 0
+      ? {
+          '@context': 'https://schema.org',
+          '@type': 'FAQPage',
+          mainEntity: faqs.map((faq) => ({
+            '@type': 'Question',
+            name: faq.question,
+            acceptedAnswer: {
+              '@type': 'Answer',
+              text: faq.answer,
+            },
+          })),
+        }
+      : null;
 
   // Breadcrumb structured data
   const breadcrumbJsonLd = {
@@ -141,6 +170,12 @@ export default async function ArticlePage({ params }) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
       />
+      {faqJsonLd && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
+        />
+      )}
 
       <article className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         {/* Article Header */}
