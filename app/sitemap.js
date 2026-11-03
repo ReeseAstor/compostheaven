@@ -1,4 +1,8 @@
-export default function sitemap() {
+import { getArticles } from '@/lib/articles';
+
+export const revalidate = 300;
+
+export default async function sitemap() {
   const baseUrl = 'https://www.compostheaven.com';
 
   return [
@@ -38,41 +42,11 @@ export default function sitemap() {
       changeFrequency: 'yearly',
       priority: 0.2,
     },
-    {
-      url: `${baseUrl}/worm-composting-beginners-guide`,
-      lastModified: new Date(),
-      changeFrequency: 'weekly',
-      priority: 0.9,
-    },
-    {
-      url: `${baseUrl}/what-to-feed-composting-worms`,
-      lastModified: new Date(),
-      changeFrequency: 'weekly',
+    ...(await getArticles()).map((article) => ({
+      url: `${baseUrl}/${article.slug}`,
+      lastModified: new Date(article.date),
+      changeFrequency: 'monthly',
       priority: 0.8,
-    },
-    {
-      url: `${baseUrl}/best-worm-composting-bins`,
-      lastModified: new Date(),
-      changeFrequency: 'weekly',
-      priority: 0.9,
-    },
-    {
-      url: `${baseUrl}/how-to-harvest-worm-castings`,
-      lastModified: new Date(),
-      changeFrequency: 'weekly',
-      priority: 0.7,
-    },
-    {
-      url: `${baseUrl}/red-wigglers-vs-european-nightcrawlers`,
-      lastModified: new Date(),
-      changeFrequency: 'weekly',
-      priority: 0.7,
-    },
-    {
-      url: `${baseUrl}/compost`,
-      lastModified: new Date(),
-      changeFrequency: 'weekly',
-      priority: 0.9,
-    },
+    })),
   ];
 }

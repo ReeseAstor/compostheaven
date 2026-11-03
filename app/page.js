@@ -12,8 +12,10 @@ export const metadata = {
   },
 };
 
-export default function HomePage() {
-  const articles = getArticles();
+export const revalidate = 300;
+
+export default async function HomePage() {
+  const articles = await getArticles();
   const featuredArticles = articles.slice(0, 3);
 
   return (

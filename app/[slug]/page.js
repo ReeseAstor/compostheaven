@@ -8,6 +8,10 @@ import { markdownToHtml } from '@/lib/markdown';
 import EmailSignup from '@/components/EmailSignup';
 import ArticleCard from '@/components/ArticleCard';
 import Link from 'next/link';
+import { notFound } from 'next/navigation';
+
+export const revalidate = 300;
+export const dynamicParams = true;
 
 export async function generateStaticParams() {
   const slugs = getArticleSlugs();
@@ -16,7 +20,7 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({ params }) {
   const { slug } = await params;
-  const article = getArticleBySlug(slug);
+  const article = await getArticleBySlug(slug);
 
   if (!article) {
     return { title: 'Article Not Found' };
@@ -55,26 +59,14 @@ export async function generateMetadata({ params }) {
 
 export default async function ArticlePage({ params }) {
   const { slug } = await params;
-  const article = getArticleBySlug(slug);
+  const article = await getArticleBySlug(slug);
 
-  if (!article) {
-    return (
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16 text-center">
-        <h1 className="text-3xl font-bold text-earth-dark mb-4">Article Not Found</h1>
-        <p className="text-gray-600 mb-8">
-          Sorry, we couldn&apos;t find the article you&apos;re looking for.
-        </p>
-        <Link href="/blog" className="btn-primary">
-          Browse All Articles
-        </Link>
-      </div>
-    );
-  }
+  if (!article) notFound();
 
   const contentHtml = markdownToHtml(article.content);
 
   // Get related articles (exclude current article, take first 3)
-  const allArticles = getArticles();
+  const allArticles = await getArticles();
   const relatedArticles = allArticles
     .filter((a) => a.slug !== article.slug)
     .slice(0, 3);
@@ -164,16 +156,16 @@ export default async function ArticlePage({ params }) {
       {/* JSON-LD Structured Data */}
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, '\\u003c') }}
       />
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd).replace(/</g, '\\u003c') }}
       />
       {faqJsonLd && (
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd).replace(/</g, '\\u003c') }}
         />
       )}
 
@@ -208,6 +200,12 @@ export default async function ArticlePage({ params }) {
             <span>By The CompostHeaven Team</span>
           </div>
         </header>
+
+        {article.automated && (
+          <p className="mb-8 text-sm text-gray-600">
+            AI-assisted guide, automatically published. Sources are linked below; verify advice for your local conditions.
+          </p>
+        )}
 
         {/* Article Body */}
         <div
