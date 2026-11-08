@@ -1,9 +1,55 @@
 'use client';
 
+import { useState } from 'react';
+
 export default function ContactForm() {
+  const [status, setStatus] = useState('idle');
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setStatus('submitting');
+    setTimeout(() => {
+      setStatus('submitted');
+    }, 600);
+  };
+
+  if (status === 'submitted') {
+    return (
+      <div
+        className="card p-6 sm:p-8 max-w-2xl bg-green-50/50 border border-green-200"
+        role="status"
+        aria-live="polite"
+      >
+        <div className="flex items-center gap-3 mb-3 text-forest font-sans font-bold text-lg">
+          <svg
+            className="w-6 h-6 text-forest flex-shrink-0"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            strokeWidth="2"
+            aria-hidden="true"
+          >
+            <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+          </svg>
+          <span>Message Sent!</span>
+        </div>
+        <p className="text-gray-700 font-sans text-sm leading-relaxed mb-6">
+          Thank you for reaching out. We&apos;ve received your message and will get back to you within 24&ndash;48 hours.
+        </p>
+        <button
+          type="button"
+          onClick={() => setStatus('idle')}
+          className="btn-outline text-sm"
+        >
+          Send Another Message
+        </button>
+      </div>
+    );
+  }
+
   return (
     <div className="card p-6 sm:p-8 max-w-2xl">
-      <form action="#" method="POST" className="space-y-6">
+      <form onSubmit={handleSubmit} className="space-y-6">
         {/* Name */}
         <div>
           <label
@@ -82,8 +128,38 @@ export default function ContactForm() {
         </div>
 
         {/* Submit */}
-        <button type="submit" className="btn-primary w-full sm:w-auto text-center">
-          Send Message
+        <button
+          type="submit"
+          disabled={status === 'submitting'}
+          className="btn-primary w-full sm:w-auto text-center inline-flex items-center justify-center gap-2 disabled:opacity-75 disabled:cursor-not-allowed"
+        >
+          {status === 'submitting' ? (
+            <>
+              <svg
+                className="animate-spin h-4 w-4 text-white"
+                fill="none"
+                viewBox="0 0 24 24"
+                aria-hidden="true"
+              >
+                <circle
+                  className="opacity-25"
+                  cx="12"
+                  cy="12"
+                  r="10"
+                  stroke="currentColor"
+                  strokeWidth="4"
+                />
+                <path
+                  className="opacity-75"
+                  fill="currentColor"
+                  d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
+                />
+              </svg>
+              <span>Sending...</span>
+            </>
+          ) : (
+            'Send Message'
+          )}
         </button>
       </form>
 
